@@ -14,7 +14,9 @@ i taget. De beskriver önskat beteende; statusen nedan visar vilka som faktiskt
 
 Målet är att utveckla glosprogrammet stegvis. Implementera och verifiera ett use case i taget innan nästa påbörjas.
 
-**Status:** UC-01 till UC-07 är implementerade.
+**Status:** UC-01 till UC-07 är implementerade. UC-08 är planerad.
+Direktordlistan `spanish.italian.csv` finns, men automatisk översättning via
+proxyspråk är ännu inte implementerad.
 
 ## UC-01: Läsa in en översättningsfil
 
@@ -97,3 +99,31 @@ Målet är att utveckla glosprogrammet stegvis. Implementera och verifiera ett u
 - Tomma rader och rader med fel antal kolumner hanteras tydligt.
 - Tom eller utebliven användarinmatning hanteras utan att programmet kraschar.
 - Saknade ord rapporteras tydligt och förväxlas inte med lyckade uppslag.
+
+## UC-08: Översätta via ett proxyspråk
+
+**Som användare** vill jag kunna översätta mellan två språk även när det saknas
+en direkt översättningsfil, så att programmet kan använda ett gemensamt
+proxyspråk för att hitta översättningen.
+
+**Exempel**
+
+- Användaren söker efter ett engelskt ord och vill ha det på spanska.
+- Programmet använder svenska som proxyspråk: engelska → svenska → spanska.
+- Det behövs ingen direkt `english.spanish.csv` om ordlistorna
+  `swedish.english.csv` och `swedish.spanish.csv` kan kopplas ihop via svenska.
+- En direkt fil som `spanish.italian.csv` är ett vanligt språkpar och räknas
+  inte i sig som översättning via proxyspråk.
+
+**Kriterier för godkännande**
+
+- Programmet kan hitta en översättningskedja mellan ett valt källspråk och
+  målspråk via ett gemensamt språk.
+- Programmet hanterar att proxyspråket står som källspråk i den ena filen och
+  målspråk i den andra.
+- Översättningar kopplas ihop med proxyspråkets ord, inte enbart genom att
+  raderna har samma position i olika CSV-filer.
+- Alla resultat som kan nås via en eller flera matchande proxyöversättningar
+  visas, utan att skapa extra `Word`-objekt för den omvända riktningen.
+- Om det inte finns en gemensam proxyväg visas ett tydligt meddelande.
+- Befintlig direktöversättning och synonymhantering fortsätter att fungera.

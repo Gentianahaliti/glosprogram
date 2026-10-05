@@ -1,5 +1,35 @@
 Console.WriteLine("glosprogram");
 
+Console.WriteLine("Välj läge:");
+Console.WriteLine("1. Översätt ord");
+Console.WriteLine("2. Spela quiz om dagens arbete");
+
+string? mode;
+while (true)
+{
+    Console.Write("Ange 1 eller 2: ");
+    mode = Console.ReadLine();
+
+    if (mode is null)
+    {
+        Console.WriteLine("Ingen inmatning tillgänglig. Programmet avslutas.");
+        return;
+    }
+
+    if (mode is "1" or "2")
+    {
+        break;
+    }
+
+    Console.WriteLine("Ogiltigt val. Ange 1 eller 2.");
+}
+
+if (mode == "2")
+{
+    Quiz.Run();
+    return;
+}
+
 // UC-03: Hitta alla CSV-ordlistor i programmets wordlist-mapp.
 string wordListDirectory = Path.Combine(AppContext.BaseDirectory, "wordlist");
 string[] wordListPaths = Directory.GetFiles(wordListDirectory, "*.csv")

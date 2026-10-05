@@ -45,3 +45,9 @@ ingår inte.
 - **15:31** — ”HAR DU ÅTGÄRDAT BUGEN”
 - **15:31** — ”är readme upppdaterad”
 - **15:32** — ”ok jag ska inte behöva påminna dig väl eller”
+- **15:36** — ”om du skulle göra uc6 för att översätta åt bägge håll hur gör du”
+- **15:37** — ”du skapar då dubbbelt så många instanser av word”
+- **15:38** — ”om du skulle vända nyckeln i groupby vad skulle dictionary istället vad skulle du mer behöva ändra då”
+- **15:45** — ”nej menar engelska o spanska”
+- **15:47** — ”kan du skapa en UC8 som innebär att vi vill kunna extrapolera översättningar via ett proxyspråk”
+- **15:47** — ”kan du generea en spansk italiensk ordlista också”
