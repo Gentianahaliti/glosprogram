@@ -51,3 +51,7 @@ ingår inte.
 - **15:45** — ”nej menar engelska o spanska”
 - **15:47** — ”kan du skapa en UC8 som innebär att vi vill kunna extrapolera översättningar via ett proxyspråk”
 - **15:47** — ”kan du generea en spansk italiensk ordlista också”
+- **15:49** — ”skapa en ny ordlista mellann två olika språk”
+- **15:50** — ”ställ sedan quizer till mig med alla frågor som finns med o allting vi har gjort här idag så jag kan spela i consolen”
+- **15:49** — ”skapa en ny ordlista mellann två olika språk”
+- **15:50** — ”ställ sedan quizer till mig med alla frågor som finns med o allting vi har gjort här idag så jag kan spela i consolen”

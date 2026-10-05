@@ -18,13 +18,18 @@ CSV-filerna kopieras automatiskt till programmets körmapp när projektet byggs.
 dotnet run
 ```
 
-Programmet listar språkparen som hittades i `wordlist`. Välj ett genom att
-skriva dess nummer och trycka på Enter. Skriv sedan ett ord på det angivna
-källspråket. Alla översättningar som hittas visas, även om ordet har flera
-översättningar.
+Välj först läge:
 
-Om ordet inte finns visas ett meddelande. Programmet fortsätter att fråga efter
-ord. Avsluta med `Ctrl+C`. Om inmatningen stängs avslutar programmet också.
+1. **Översätt ord** — programmet listar språkparen i `wordlist`. Välj ett
+   nummer och skriv sedan ett ord på källspråket. Alla matchande översättningar
+   visas.
+2. **Spela quiz om dagens projektarbete** — svara på flervalsfrågorna med
+   alternativets nummer. Efter varje fråga visas om svaret var rätt och en
+   kort förklaring. I slutet visas poäng och procent.
+
+I översättningsläget visas ett meddelande om ordet inte hittas. Programmet
+fortsätter att fråga efter ord. Avsluta med `Ctrl+C`. Om inmatningen stängs
+avslutar både översättningsläget och quizet på ett kontrollerat sätt.
 
 ## Ordlistor
 

@@ -14,7 +14,7 @@ i taget. De beskriver önskat beteende; statusen nedan visar vilka som faktiskt
 
 Målet är att utveckla glosprogrammet stegvis. Implementera och verifiera ett use case i taget innan nästa påbörjas.
 
-**Status:** UC-01 till UC-07 är implementerade. UC-08 är planerad.
+**Status:** UC-01 till UC-07 och UC-09 är implementerade. UC-08 är planerad.
 Direktordlistan `spanish.italian.csv` finns, men automatisk översättning via
 proxyspråk är ännu inte implementerad.
 
@@ -127,3 +127,19 @@ proxyspråk för att hitta översättningen.
   visas, utan att skapa extra `Word`-objekt för den omvända riktningen.
 - Om det inte finns en gemensam proxyväg visas ett tydligt meddelande.
 - Befintlig direktöversättning och synonymhantering fortsätter att fungera.
+
+## UC-09: Spela quiz om projektet
+
+**Som användare** vill jag kunna spela ett quiz om programmeringsbegreppen och
+projektarbetet, så att jag kan repetera det jag lärt mig i konsolen.
+
+**Kriterier för godkännande**
+
+- Huvudmenyn erbjuder quizet som ett separat läge från ordöversättningen.
+- Frågorna täcker dagens C#-begrepp, CSV-ordlistor, språkval, use cases,
+  proxyspråk och centrala projektändringar.
+- Frågorna visas en i taget med numrerade svarsalternativ.
+- Efter varje svar får användaren återkoppling, rätt svar vid fel och en kort
+  förklaring.
+- Efter quizet visas poäng och andel rätt.
+- Slut på indata avbryter quizet kontrollerat och visar poängen hittills.
