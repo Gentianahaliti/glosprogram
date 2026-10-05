@@ -20,4 +20,8 @@ Följ dessa kodstandarder:
 - Använd korrekt C#-syntax, metodnamn och versalisering. Exempelvis är C# skiftlägeskänsligt: `words` och `Words` är olika namn.
 - Gör små, sammanhängande ändringar. Ändra inte orelaterade delar av programmet.
 - Efter en kodändring ska projektet byggas. Om ändringen påverkar funktionalitet, kör relevanta tester eller kontrollera beteendet med ett konkret exempel.
+- Uppdatera alltid `Readme.md` när en kod- eller konfigurationsändring påverkar programmets funktion, användning, krav, begränsningar eller kända fel. Manualen ska beskriva programmets aktuella beteende.
+- Underhåll `PROMPT-HISTORY.md` löpande. Lägg till varje ny relevant fråga eller instruktion från användaren i kronologisk ordning, bevara användarens formulering och tidsstämpel när den finns tillgänglig, och ta inte med assistentens svar.
+- Håll projektdokumentationen överensstämmande med aktuell kod och funktion. Uppdatera use case-status när ett use case implementeras eller ändras, och kontrollera att README, use case-specifikationer, buggrapporter och systemprompt inte motsäger varandra.
+- Efter varje projektändring ska alla parallella översättningsfiler kontrolleras mot varandra. De ska innehålla samma källspråkord i samma ordning och samma antal rader. Om en ändring orsakar en skillnad ska motsvarande översättningar synkroniseras utan att befintliga översättningar ändras i onödan; kontrollera därefter pariteten igen.
 - Om en instruktion är tvetydig och olika val påverkar programmets beteende, fråga användaren innan du väljer lösning.

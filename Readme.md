@@ -35,8 +35,10 @@ Programmet fortsätter att fråga efter ord. Avsluta det med `Ctrl+C`.
 
 ## Ordlistans format
 
-Programmet läser filen `swedish.english.csv`. Varje rad ska innehålla ett
-svenskt ord och en engelsk översättning, separerade med ett kommatecken:
+Programmet läser för närvarande filen `swedish.english.csv`. Filnamnet anger
+språkparet i formatet `källspråk.målspråk.csv`. Programmet använder dessa
+språknamn på varje inläst översättningspost. Varje rad i filen ska innehålla
+ett källspråksord och dess översättning, separerade med ett kommatecken:
 
 ```csv
 hus,house
@@ -51,9 +53,15 @@ första kommatecknet och behandlar resten av raden som översättningen.
 
 ## Begränsningar i nuvarande version
 
-- Endast filen `swedish.english.csv` och språkparet svenska → engelska används.
+- Programmet läser för närvarande bara `swedish.english.csv`. Andra språkfiler,
+  till exempel `swedish.spanish.csv`, kopieras till körmappen men kan ännu inte
+  väljas eller användas.
 - Sökningen skiljer mellan stora och små bokstäver. Skriv ordet med samma
   versalisering som i CSV-filen.
 - Saknas CSV-filen, eller saknar en rad kommatecken, avbryts programmet med
   ett fel. CSV-citattecken och escaping stöds inte.
 - Programmet visar för närvarande exempelöversättningen `home` vid start.
+- Om ordlistan innehåller färre än två poster kraschar programmet vid
+  exempelutskriften.
+- Om programmets standardindata tar slut fortsätter det att upprepa meddelandet
+  om att ordet saknas. Avsluta programmet med `Ctrl+C`.

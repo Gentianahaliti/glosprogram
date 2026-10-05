@@ -1,13 +1,22 @@
 // Skriver programmets namn i konsolfönstret.
 Console.WriteLine("glosprogram");
 
-// Typen är List<Word>: en lista som innehåller Word-objekt.
-// Detta är en lista, inte en array. Hakparenteserna nedan är en
-// collection expression som fyller listan med startvärden.
+// List<Word> är en lista som fylls med Word-objekt när CSV-filen läses in.
 List<Word> words = [];
 
 // UC-01: Läs CSV-filen från programmets körmapp, där projektet kopierar den vid byggning.
 string wordListPath = Path.Combine(AppContext.BaseDirectory, "swedish.english.csv");
+
+// UC-02: Läs källspråk och målspråk från filnamnet, exempelvis swedish.english.csv.
+string[] languagePair = Path.GetFileNameWithoutExtension(wordListPath).Split('.');
+if (languagePair.Length != 2 ||
+    string.IsNullOrWhiteSpace(languagePair[0]) ||
+    string.IsNullOrWhiteSpace(languagePair[1]))
+{
+    throw new InvalidDataException(
+        $"Filnamnet '{Path.GetFileName(wordListPath)}' måste ha format källspråk.målspråk.csv.");
+}
+
 string[] wordLines = File.ReadAllLines(wordListPath);
 
 // UC-01: Omvandla varje CSV-rad till ett Word-objekt och lägg det i listan.
@@ -20,7 +29,8 @@ for (int lineNumber = 0; lineNumber < wordLines.Length; lineNumber++)
             $"Ogiltig rad {lineNumber + 1} i översättningsfilen: {wordLines[lineNumber]}");
     }
 
-    words.Add(new Word(wordPair[0].Trim(), wordPair[1].Trim(), "swedish", "english"));
+    // UC-02: Spara språken från filnamnet på varje översättningspost.
+    words.Add(new Word(wordPair[0].Trim(), wordPair[1].Trim(), languagePair[0], languagePair[1]));
 }
 
 // Listor använder nollbaserade index: [0] är första posten och [1] den andra.
@@ -32,25 +42,25 @@ Console.WriteLine(words[1].WordOut);
 // till exempel ett svenskt ord. En vanlig nyckel kan dock bara ha ett värde,
 // så en lista passar bättre här när ett ord kan ha flera översättningar.
 
-Dictionary<string, List<Word>> swedishToEnglish = words
+Dictionary<string, List<Word>> translationsByWord = words
     .GroupBy(word => word.WordIn)
     .ToDictionary(
         group => group.Key,
         group => group.ToList());
 
-// referera till ett ord ur vår array (hem på engelska):   // Skillnad mellan referens och primitiva värden. Wordout? Handlar om optimering.
-//Console.WriteLine(swedishtoenglish["hem"][0].WordOut);
+// Exempel på att hämta en översättning ur listan:
+//Console.WriteLine(translationsByWord["hem"][0].WordOut);
 
 while (true)
 {
     Console.WriteLine("Ange vilket ord du vill översätta");
     string? wordToTranslate = Console.ReadLine();
 
-    // If it contains the key
-    if (wordToTranslate is not null && swedishToEnglish.ContainsKey(wordToTranslate))
+    // Kontrollera om ordet finns som nyckel i ordlistan.
+    if (wordToTranslate is not null && translationsByWord.ContainsKey(wordToTranslate))
     {
         // loopa ut sysnonymer
-        foreach (var word in swedishToEnglish[wordToTranslate])
+        foreach (var word in translationsByWord[wordToTranslate])
         {
             Console.WriteLine(word.WordOut);
         }

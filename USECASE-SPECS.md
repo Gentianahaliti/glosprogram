@@ -1,6 +1,21 @@
 # Use case-specifikationer
 
+## Vad är ett use case?
+
+Ett use case (användningsfall) beskriver en konkret situation där en användare
+vill göra något med ett system. Det förklarar vem som använder funktionen, vad
+användaren vill uppnå och hur vi kan kontrollera att funktionen fungerar.
+Use cases skrivs ofta i formen **”Som [roll] vill jag [mål], så att [nytta]”**.
+Kriterierna för godkännande gör målet tydligt och möjligt att verifiera.
+
+I det här projektet delar vi utvecklingen i små use cases och implementerar ett
+i taget. De beskriver önskat beteende; statusen nedan visar vilka som faktiskt
+är implementerade.
+
 Målet är att utveckla glosprogrammet stegvis. Implementera och verifiera ett use case i taget innan nästa påbörjas.
+
+**Status:** UC-01 och UC-02 är implementerade. UC-03 till UC-07 är planerade och
+beskriver framtida funktionalitet, inte vad programmet kan göra i nuläget.
 
 ## UC-01: Läsa in en översättningsfil
 
@@ -17,7 +32,7 @@ Målet är att utveckla glosprogrammet stegvis. Implementera och verifiera ett u
 
 **Som användare** vill jag att programmet avgör språken från översättningsfilens namn, så att språk inte behöver hårdkodas i programmet.
 
-**Exempel**
+**Exempel på framtida språkpar**
 
 - `swedish.english.csv` anger svenska som källspråk och engelska som målspråk.
 
@@ -41,7 +56,7 @@ Målet är att utveckla glosprogrammet stegvis. Implementera och verifiera ett u
 
 **Som användare** vill jag välja ett tillgängligt språkpar, så att jag kan använda samma program för olika översättningar.
 
-**Exempel**
+**Exempel på framtida språkpar**
 
 - Svenska → engelska.
 - Franska → svenska.
