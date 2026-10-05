@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <!-- UC-01: Kopiera ordlistan till programmets körmapp så att den finns efter byggning. -->
+  <ItemGroup>
+    <None Update="swedish.english.csv" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
