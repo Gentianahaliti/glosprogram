@@ -1,90 +1,140 @@
-// Skriver programmets namn i konsolfönstret.
 Console.WriteLine("glosprogram");
 
-// List<Word> är en lista som fylls med Word-objekt när CSV-filen läses in.
-List<Word> words = [];
+// UC-03: Hitta alla CSV-ordlistor i programmets wordlist-mapp.
+string wordListDirectory = Path.Combine(AppContext.BaseDirectory, "wordlist");
+string[] wordListPaths = Directory.GetFiles(wordListDirectory, "*.csv")
+    .OrderBy(path => path, StringComparer.OrdinalIgnoreCase)
+    .ToArray();
 
-// UC-01: Läs CSV-filen från programmets körmapp, där projektet kopierar den vid byggning.
-string wordListPath = Path.Combine(AppContext.BaseDirectory, "swedish.english.csv");
-
-// UC-02: Läs källspråk och målspråk från filnamnet, exempelvis swedish.english.csv.
-string[] languagePair = Path.GetFileNameWithoutExtension(wordListPath).Split('.');
-if (languagePair.Length != 2 ||
-    string.IsNullOrWhiteSpace(languagePair[0]) ||
-    string.IsNullOrWhiteSpace(languagePair[1]))
+if (wordListPaths.Length == 0)
 {
-    throw new InvalidDataException(
-        $"Filnamnet '{Path.GetFileName(wordListPath)}' måste ha format källspråk.målspråk.csv.");
+    throw new FileNotFoundException($"Inga CSV-ordlistor hittades i mappen '{wordListDirectory}'.");
 }
 
-string[] wordLines = File.ReadAllLines(wordListPath);
+List<TranslationFile> translationFiles = [];
 
-// UC-01: Omvandla varje CSV-rad till ett Word-objekt och lägg det i listan.
-for (int lineNumber = 0; lineNumber < wordLines.Length; lineNumber++)
+foreach (string wordListPath in wordListPaths)
 {
-    string[] wordPair = wordLines[lineNumber].Split(',', 2);
-    if (wordPair.Length != 2)
+    // UC-02: Filnamnet anger källspråk och målspråk, till exempel swedish.english.csv.
+    string[] languagePair = Path.GetFileNameWithoutExtension(wordListPath).Split('.');
+    if (languagePair.Length != 2 ||
+        string.IsNullOrWhiteSpace(languagePair[0]) ||
+        string.IsNullOrWhiteSpace(languagePair[1]))
     {
         throw new InvalidDataException(
-            $"Ogiltig rad {lineNumber + 1} i översättningsfilen: {wordLines[lineNumber]}");
+            $"Filnamnet '{Path.GetFileName(wordListPath)}' måste ha format källspråk.målspråk.csv.");
     }
 
-    // UC-02: Spara språken från filnamnet på varje översättningspost.
-    words.Add(new Word(wordPair[0].Trim(), wordPair[1].Trim(), languagePair[0], languagePair[1]));
+    string[] wordLines = File.ReadAllLines(wordListPath);
+    List<Word> words = [];
+
+    // UC-01: Läs in varje CSV-rad som ett Word-objekt.
+    for (int lineNumber = 0; lineNumber < wordLines.Length; lineNumber++)
+    {
+        string[] wordPair = wordLines[lineNumber].Split(',', 2);
+        if (wordPair.Length != 2 ||
+            string.IsNullOrWhiteSpace(wordPair[0]) ||
+            string.IsNullOrWhiteSpace(wordPair[1]))
+        {
+            throw new InvalidDataException(
+                $"Ogiltig rad {lineNumber + 1} i '{Path.GetFileName(wordListPath)}': {wordLines[lineNumber]}");
+        }
+
+        words.Add(new Word(
+            wordPair[0].Trim(),
+            wordPair[1].Trim(),
+            languagePair[0],
+            languagePair[1]));
+    }
+
+    Dictionary<string, List<Word>> translationsByWord = words
+        .GroupBy(word => word.WordIn)
+        .ToDictionary(group => group.Key, group => group.ToList());
+
+    translationFiles.Add(new TranslationFile(
+        languagePair[0],
+        languagePair[1],
+        translationsByWord));
 }
 
-// Listor använder nollbaserade index: [0] är första posten och [1] den andra.
-// words[1] har typen Word. Egenskapen WordOut har typen string,
-// så Console.WriteLine skriver ut texten "home".
-Console.WriteLine(words[1].WordOut);
+// UC-04: Visa språkpar som hittades och låt användaren välja ett.
+Console.WriteLine("Tillgängliga språkpar:");
+for (int index = 0; index < translationFiles.Count; index++)
+{
+    TranslationFile translationFile = translationFiles[index];
+    Console.WriteLine($"{index + 1}. {translationFile.SourceLanguage} → {translationFile.TargetLanguage}");
+}
 
-// En Dictionary kan också användas för uppslag med en nyckel,
-// till exempel ett svenskt ord. En vanlig nyckel kan dock bara ha ett värde,
-// så en lista passar bättre här när ett ord kan ha flera översättningar.
+TranslationFile? selectedTranslationFile = null;
+while (selectedTranslationFile is null)
+{
+    Console.Write("Välj språkpar genom att ange dess nummer: ");
+    string? selection = Console.ReadLine();
 
-Dictionary<string, List<Word>> translationsByWord = words
-    .GroupBy(word => word.WordIn)
-    .ToDictionary(
-        group => group.Key,
-        group => group.ToList());
+    if (selection is null)
+    {
+        Console.WriteLine("Ingen inmatning tillgänglig. Programmet avslutas.");
+        return;
+    }
 
-// Exempel på att hämta en översättning ur listan:
-//Console.WriteLine(translationsByWord["hem"][0].WordOut);
+    if (int.TryParse(selection, out int selectedIndex) &&
+        selectedIndex >= 1 &&
+        selectedIndex <= translationFiles.Count)
+    {
+        selectedTranslationFile = translationFiles[selectedIndex - 1];
+    }
+    else
+    {
+        Console.WriteLine("Ogiltigt val. Ange numret för ett av språkparen.");
+    }
+}
 
+// UC-05: Sök efter användarens ord med det valda språkparet.
 while (true)
 {
-    Console.WriteLine("Ange vilket ord du vill översätta");
+    Console.Write($"Ange ett ord på {selectedTranslationFile.SourceLanguage}: ");
     string? wordToTranslate = Console.ReadLine();
 
-    // Kontrollera om ordet finns som nyckel i ordlistan.
-    if (wordToTranslate is not null && translationsByWord.ContainsKey(wordToTranslate))
+    if (wordToTranslate is null)
     {
-        // loopa ut sysnonymer
-        foreach (var word in translationsByWord[wordToTranslate])
+        Console.WriteLine("Ingen inmatning tillgänglig. Programmet avslutas.");
+        break;
+    }
+
+    wordToTranslate = wordToTranslate.Trim();
+    if (wordToTranslate.Length == 0)
+    {
+        Console.WriteLine("Skriv ett ord.");
+        continue;
+    }
+
+    if (selectedTranslationFile.TranslationsByWord.TryGetValue(wordToTranslate, out List<Word>? translations))
+    {
+        foreach (Word translation in translations)
         {
-            Console.WriteLine(word.WordOut);
+            Console.WriteLine(translation.WordOut);
         }
     }
     else
     {
-        Console.WriteLine("This word does not exist in this dictionary");
+        Console.WriteLine("Ordet finns inte i den valda ordlistan.");
     }
 }
 
-
-// Word är en klass, alltså en egen typ som beskriver en glospost.
-// Alla fyra konstruktorparametrar är string-typer.
 class Word(string wordIn, string wordOut, string languageIn, string languageOut)
 {
-    // string: ordet på källspråket.
     public string WordIn { get; } = wordIn;
-
-    // string: översättningen till målspråket.
     public string WordOut { get; } = wordOut;
-
-    // string: språket som WordIn tillhör, till exempel "swedish".
     public string LanguageIn { get; } = languageIn;
-
-    // string: språket som WordOut tillhör, till exempel "english".
     public string LanguageOut { get; } = languageOut;
+}
+
+class TranslationFile(
+    string sourceLanguage,
+    string targetLanguage,
+    Dictionary<string, List<Word>> translationsByWord)
+{
+    public string SourceLanguage { get; } = sourceLanguage;
+    public string TargetLanguage { get; } = targetLanguage;
+    public Dictionary<string, List<Word>> TranslationsByWord { get; } = translationsByWord;
 }

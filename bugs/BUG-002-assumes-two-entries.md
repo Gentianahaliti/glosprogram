@@ -1,6 +1,6 @@
 # BUG-002: Programmet kraschar om ordlistan har färre än två poster
 
-- **Status:** Öppen
+- **Status:** Åtgärdad i UC-03 till UC-05
 - **Allvarlighetsgrad:** Medel
 - **Berörd funktion:** Exempelutskriften efter CSV-inläsningen i `Program.cs`
 
@@ -22,11 +22,12 @@ Programmet startar även med en giltig lista som innehåller färre än två pos
 eller visar ett tydligt meddelande om att ordlistan inte har tillräckligt med
 data för exempelutskriften.
 
-## Faktiskt resultat
+## Faktiskt resultat före åtgärd
 
 Programmet kraschar när det försöker läsa `words[1]`.
 
-## Förslag på åtgärd
+## Åtgärd
 
-Ta bort exempelutskriften eller kontrollera listans längd innan index `1`
-används.
+Den fasta exempelutskriften med `words[1]` har tagits bort. Programmet läser
+ordlistor oavsett antal poster och hanterar även en tom ordlista utan att
+försöka hämta ett element med index.

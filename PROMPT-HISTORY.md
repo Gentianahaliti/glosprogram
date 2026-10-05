@@ -40,3 +40,8 @@ ingår inte.
 - **15:19** — ”bra boten”
 - **15:23** — ”spara prompt history i en fil så jag vet vad jag ställd för frågor”
 - **15:26** — ”från och med underhåll denna kontinuerligt lägg in detta i ditt systempromt”
+- **15:28** — ”kan du bygga UV3 4 OCH FEM”
+- **15:28** — ”UC”
+- **15:31** — ”HAR DU ÅTGÄRDAT BUGEN”
+- **15:31** — ”är readme upppdaterad”
+- **15:32** — ”ok jag ska inte behöva påminna dig väl eller”

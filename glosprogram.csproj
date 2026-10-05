@@ -7,10 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <!-- UC-01: Kopiera båda översättningsfilerna till programmets körmapp vid byggning. -->
+  <!-- UC-03: Kopiera alla språkfiler i wordlist till programmets körmapp. -->
   <ItemGroup>
-    <None Update="swedish.english.csv" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="swedish.spanish.csv" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="wordlist\*.csv" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

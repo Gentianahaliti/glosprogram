@@ -1,14 +1,14 @@
 # Glosprogram
 
-Ett enkelt konsolprogram som läser en svensk-engelsk ordlista från en CSV-fil
-och låter dig söka efter engelska översättningar av svenska ord.
+Ett konsolprogram där du väljer ett språkpar och söker efter översättningar i
+CSV-ordlistor.
 
 ## Krav
 
 - .NET 10 SDK
-- `swedish.english.csv` i projektmappen
+- Minst en giltig CSV-fil i projektmappen `wordlist`
 
-CSV-filen kopieras automatiskt till programmets körmapp när projektet byggs.
+CSV-filerna kopieras automatiskt till programmets körmapp när projektet byggs.
 
 ## Starta programmet
 
@@ -18,50 +18,40 @@ CSV-filen kopieras automatiskt till programmets körmapp när projektet byggs.
 dotnet run
 ```
 
-Programmet visar först en exempelöversättning (`home`) och frågar sedan:
+Programmet listar språkparen som hittades i `wordlist`. Välj ett genom att
+skriva dess nummer och trycka på Enter. Skriv sedan ett ord på det angivna
+källspråket. Alla översättningar som hittas visas, även om ordet har flera
+översättningar.
 
-```text
-Ange vilket ord du vill översätta
-```
+Om ordet inte finns visas ett meddelande. Programmet fortsätter att fråga efter
+ord. Avsluta med `Ctrl+C`. Om inmatningen stängs avslutar programmet också.
 
-Skriv ett svenskt ord som finns i ordlistan och tryck på Enter. Programmet
-skriver ut den eller de engelska översättningarna. Om ordet inte hittas visas:
+## Ordlistor
 
-```text
-This word does not exist in this dictionary
-```
+Lägg språkfiler i projektmappens `wordlist`-mapp. Filnamnet anger språkparet
+som `källspråk.målspråk.csv`. Till exempel:
 
-Programmet fortsätter att fråga efter ord. Avsluta det med `Ctrl+C`.
+- `swedish.english.csv` — svenska till engelska
+- `swedish.spanish.csv` — svenska till spanska
 
-## Ordlistans format
-
-Programmet läser för närvarande filen `swedish.english.csv`. Filnamnet anger
-språkparet i formatet `källspråk.målspråk.csv`. Programmet använder dessa
-språknamn på varje inläst översättningspost. Varje rad i filen ska innehålla
-ett källspråksord och dess översättning, separerade med ett kommatecken:
+Varje rad ska innehålla ett källspråksord och en översättning, separerade med
+ett kommatecken:
 
 ```csv
 hus,house
-hem,home
 stor,big
 stor,large
 ```
 
-Blanksteg runt orden tas bort. Om samma svenska ord finns på flera rader
-visas alla dess översättningar vid sökning. Programmet delar varje rad vid det
-första kommatecknet och behandlar resten av raden som översättningen.
+Blanksteg runt orden tas bort. Om samma källord står på flera rader visas alla
+dess översättningar. Raden delas vid det första kommatecknet; CSV-citattecken
+och escaping stöds inte. Rader utan två ifyllda fält orsakar ett tydligt
+inläsningsfel med filnamn och radnummer. Filnamnet måste innehålla exakt två
+språknamn före `.csv`.
 
-## Begränsningar i nuvarande version
+## Begränsningar
 
-- Programmet läser för närvarande bara `swedish.english.csv`. Andra språkfiler,
-  till exempel `swedish.spanish.csv`, kopieras till körmappen men kan ännu inte
-  väljas eller användas.
-- Sökningen skiljer mellan stora och små bokstäver. Skriv ordet med samma
-  versalisering som i CSV-filen.
-- Saknas CSV-filen, eller saknar en rad kommatecken, avbryts programmet med
-  ett fel. CSV-citattecken och escaping stöds inte.
-- Programmet visar för närvarande exempelöversättningen `home` vid start.
-- Om ordlistan innehåller färre än två poster kraschar programmet vid
-  exempelutskriften.
-- Om programmets standardindata tar slut fortsätter det att upprepa meddelandet
-  om att ordet saknas. Avsluta programmet med `Ctrl+C`.
+- Sökningen skiljer mellan stora och små bokstäver.
+- Språkparet gäller i riktningen som anges i filnamnet. En separat fil behövs
+  för omvänd översättning.
+- Om inga CSV-filer finns i `wordlist` kan programmet inte starta.

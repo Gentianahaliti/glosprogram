@@ -14,8 +14,7 @@ i taget. De beskriver önskat beteende; statusen nedan visar vilka som faktiskt
 
 Målet är att utveckla glosprogrammet stegvis. Implementera och verifiera ett use case i taget innan nästa påbörjas.
 
-**Status:** UC-01 och UC-02 är implementerade. UC-03 till UC-07 är planerade och
-beskriver framtida funktionalitet, inte vad programmet kan göra i nuläget.
+**Status:** UC-01 till UC-07 är implementerade.
 
 ## UC-01: Läsa in en översättningsfil
 
@@ -32,7 +31,7 @@ beskriver framtida funktionalitet, inte vad programmet kan göra i nuläget.
 
 **Som användare** vill jag att programmet avgör språken från översättningsfilens namn, så att språk inte behöver hårdkodas i programmet.
 
-**Exempel på framtida språkpar**
+**Exempel**
 
 - `swedish.english.csv` anger svenska som källspråk och engelska som målspråk.
 
@@ -56,10 +55,10 @@ beskriver framtida funktionalitet, inte vad programmet kan göra i nuläget.
 
 **Som användare** vill jag välja ett tillgängligt språkpar, så att jag kan använda samma program för olika översättningar.
 
-**Exempel på framtida språkpar**
+**Exempel**
 
 - Svenska → engelska.
-- Franska → svenska.
+- Svenska → spanska.
 
 **Kriterier för godkännande**
 

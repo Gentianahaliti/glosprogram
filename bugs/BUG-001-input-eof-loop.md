@@ -1,6 +1,6 @@
 # BUG-001: Programmet fortsätter loopa när inmatningen tar slut
 
-- **Status:** Öppen
+- **Status:** Åtgärdad i UC-04 och UC-05
 - **Allvarlighetsgrad:** Medel
 - **Berörd funktion:** Inmatningsloopen i `Program.cs`
 
@@ -21,11 +21,12 @@ att mata in ett nytt ord.
 
 Programmet avslutar inmatningsloopen när `Console.ReadLine()` returnerar `null`.
 
-## Faktiskt resultat
+## Faktiskt resultat före åtgärd
 
 Programmet visar meddelandet om att ordet saknas och försöker läsa igen i en
 oändlig loop.
 
-## Förslag på åtgärd
+## Åtgärd
 
-Kontrollera om inmatningen är `null` och avsluta loopen innan uppslaget görs.
+Programmet kontrollerar nu om inmatningen är `null` både vid val av språkpar
+och vid ordsökning, visar ett avslutsmeddelande och lämnar loopen.
